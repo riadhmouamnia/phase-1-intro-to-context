@@ -10,15 +10,7 @@ function createEmployeeRecord(array) {
 }
 
 function createEmployeeRecords(array) {
-  const employeeRecords = array.map((employee) => ({
-    firstName: employee[0],
-    familyName: employee[1],
-    title: employee[2],
-    payPerHour: employee[3],
-    timeInEvents: new Array(),
-    timeOutEvents: new Array(),
-  }));
-  return employeeRecords;
+  return array.map((employee) => createEmployeeRecord(employee));
 }
 
 function createTimeInEvent(employeeRecord, dateTime) {
@@ -54,13 +46,9 @@ function hoursWorkedOnDate(employeeRecord, dateTime) {
 }
 
 function wagesEarnedOnDate(employeeRecord, dateTime) {
-  const timeOutHour = employeeRecord.timeOutEvents.filter(
-    (event) => event.date === dateTime
-  )[0].hour;
-  const timeinHour = employeeRecord.timeInEvents.filter(
-    (event) => event.date === dateTime
-  )[0].hour;
-  return ((timeOutHour - timeinHour) / 100) * employeeRecord.payPerHour;
+  return (
+    hoursWorkedOnDate(employeeRecord, dateTime) * employeeRecord.payPerHour
+  );
 }
 
 function allWagesFor(employeeRecord) {
